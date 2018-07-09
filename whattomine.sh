@@ -6,7 +6,7 @@
 
 # configuration
 BIN=/home/suparious/mine
-AWESOME=macmini:1025/miners/27
+AWESOME=macmini:1025/miners/29
 CCMINER=/home/suparious/mine/ccminer-DumaxFR
 CCMINERYES=/home/suparious/mine/ccminer-yesr16
 CCMINERPHI=/home/suparious/mine/ccminer-DumaxFR
@@ -83,9 +83,39 @@ case "$pool_name" in
 		algo_name=lyra2z
 		pass="TECH,c=PYRO"
 		;;
+	  4540)
+		algo_name=lyra2rev2
+		pass="TECH,c=KREDS"
+		pool_name=TT-KREDS
+		;;
+	  4538)
+		algo_name=lyra2rev2
+		pass="TECH,c=ABS"
+		pool_name=TT-ABS
+		;;
+	  4533)
+		algo_name=lyra2rev2
+		pass="TECH,c=ORE"
+		pool_name=TT-ORE
+		;;
+	  4535)
+		algo_name=lyra2rev2
+		pass="TECH,c=STAK"
+		pool_name=TT-STAK
+		;;
+	  4545)
+		algo_name=lyra2rev2
+		pass="TECH,c=VTC"
+		pool_name=TT-VTC
+		;;
 	  8332)
 		algo_name=phi2
 		pass="TECH,c=LUX"
+		;;
+	  4240)
+		algo_name=neoscrypt
+		pass="TECH,c=MBC"
+		pool_name=TT-MBC
 		;;
 	esac
 	;;
@@ -94,7 +124,7 @@ case "$pool_name" in
 esac
 
 # uncomment for debugging
-echo "Pool:$pool_name Algo:$algo_name URL:$server_url Worker:$worker_name"
+#echo "Pool:$pool_name Algo:$algo_name URL:$server_url Worker:$worker_name"
 
 # build the commandline string
 case "$algo_name" in
@@ -105,14 +135,19 @@ case "$algo_name" in
 	echo "$EXCAVATOR -c $BIN/excavator/$algo_name-$pool_name.json -i 10.2.5.36 -p 4028" > $DUMP
 	;;
 
-  x16r)
+  x16r|x16s)
 	echo "Running for $algo_name"
-        echo "$ZENEMY -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p c=BTC,d=128 -i 21 -N 10 -R 5 --api-allow=0/0" > $DUMP
+        echo "$ZENEMY -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass,d=64 --api-allow=0/0" > $DUMP
 	;;
 
-  x16s|x17|xevan|vit)
+  aeriumx|aergo)
 	echo "Running for $algo_name"
-	echo "$ZENEMY -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p c=BTC -N 10 -R 5 --api-allow=0/0" > $DUMP
+        echo "$ZENEMY -a aeriumx -o stratum+tcp://$server_url -u $worker_name -p $pass --api-allow=0/0" > $DUMP
+	;;
+
+  x17)
+	echo "Running for $algo_name"
+	echo "$ZENEMY -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass --api-allow=0/0" > $DUMP
 	;;
 
   equihash)
@@ -129,22 +164,32 @@ case "$algo_name" in
 
   lyra2z)
 	echo "running for $algo_name"
-	echo "$CCMINER -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass -i 19 --api-allow=0/0 --api-remote"> $DUMP
+	echo "$CCMINER -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass,d=18 -i 19 --api-allow=0/0 --api-remote"> $DUMP
 	;;
 
   yescrypt|yescryptr16)
 	echo "running for $algo_name"
-	echo "$CCMINERYES -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass" > $DUMP
+	echo "$CCMINERYES -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass --api-bind 0.0.0.0:4038"> $DUMP
 	;;
 
   skunkhash)
 	echo "running for $algo_name"
-	echo "$CCMINER -a skunk -o stratum+tcp://$server_url -u $worker_name -p $pass --api-allow=0/0 --api-remote" > $DUMP
+	echo "$CCMINER -a skunk -o stratum+tcp://$server_url -u $worker_name -p $pass,d=0.6 --api-allow=0/0 --api-remote" > $DUMP
 	;;
 
-  allium|tribus|timetravel)
+  allium|xevan|vit|tribus|timetravel|quark)
 	echo "Suck my dick $algo_name, we're doing ravens!"
-	echo "$ZENEMY -a x16r -o stratum+tcp://mine.subscriberpool.com:3636 -u RX5J87eCFkP1Dd7RZb7E7qotyYjfB2h573 -p TECH,c=RVN,d=128 -i 21 -N 10 -R 5 --api-allow=0/0" > $DUMP
+	echo "$ZENEMY -a x16r -o stratum+tcp://mine.subscriberpool.com:3636 -u RX5J87eCFkP1Dd7RZb7E7qotyYjfB2h573 -p TECH,c=RVN,d=64 --api-allow=0/0" > $DUMP
+	;;
+
+  hmq1725)
+        echo "running for $algo_name"
+        echo "$CCMINER -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass,d=6912 -i 21 --api-allow=0/0 --api-remote" > $DUMP
+        ;;
+
+  skein)
+	echo "running for $algo_name"
+	echo "$CCMINER -a $algo_name -o stratum+tcp://$server_url -u $worker_name -p $pass,d=6 -i 21 --api-allow=0/0 --api-remote" > $DUMP
 	;;
   *)
 	echo "running for $algo_name"
