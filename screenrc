@@ -20,7 +20,7 @@ bindkey -m "^k" stuff k               # move up one line
 screen -t top   htop
 screen -t cpu   watch -t -n 5 "sensors"
 screen -t smi   watch -t -n 5 "nvidia-smi"
-screen -t gpu   watch -t -n 5 "(echo "Time, Id, Name, St, P.Lim, P.Draw, Temp, Fan, Gpu, Mem";nvidia-smi --format=csv,noheader,nounits --query-gpu=timestamp,index,name,ps$
+screen -t gpu   watch -t -n 5 "(echo "Time, Id, Name, St, P.Lim, P.Draw, Temp, Fan, Gpu, Mem";nvidia-smi --format=csv,noheader,nounits --query-gpu=timestamp,index,name,pstate,power.limit,power.draw,temperature.gpu,fan.speed,utilization.gpu,memory.used)"
 screen -t miner bash "/home/suparious/mine/miner_loop.sh"
 screen          bash
 shell bash
