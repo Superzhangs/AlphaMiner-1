@@ -2,7 +2,7 @@
 
 ### Linux implementation of a linux external AwesomeMiner-compatible profit switching miner
 
-## Prepare a minimal Debian/Ubuntu desktop 
+## Prepare a minimal Ubuntu 18.04 desktop for mining on NVIDIA
 
 ### Update the Apt repository and upgrade the distribution before starting
 ```
@@ -20,15 +20,15 @@ sudo apt install build-essential libc6:i386 git wget curl net-tools
 sudo apt-get install openssh-server  # and tightvncserver for noobs
 ```
 
-## Installing proprietary NVIDIA drivers 
-### Download the latest official NVIDIA drivers
-#### http://www.nvidia.com/Download/index.aspx
+### Installing proprietary NVIDIA drivers 
+#### Download the latest official NVIDIA drivers
+##### http://www.nvidia.com/Download/index.aspx
 ```
 cd ~
 wget https://us.download.nvidia.com/XFree86/Linux-x86_64/415.13/NVIDIA-Linux-x86_64-415.13.run
 ```
 
-### Disable the nouveu driver, and reboot
+#### Disable the nouveu driver, and reboot
 ```
 sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
 sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
@@ -36,18 +36,18 @@ sudo update-initramfs -u
 sudo reboot
 ```
 
-### Shutdown the display manager and turn off any running X servers by changing to console mode
+#### Shutdown the display manager and turn off any running X servers by changing to console mode
 ```
 sudo telinit 3
 ```
-
-### Install the NVIDIA driver for linux (with no Secure Boot enabled)
+#### NVIDIA driver installation
+##### Install for systems with Secure Boot disabled in UEFI BIOS, or if not using UEFI
 ```
 sudo bash NVIDIA-Linux-x86_64-415.13.run
 ```
 Choose "No" for signing the kernel module
 
-### Install the NVIDIA driver for linux (for UEFI systems with Secure Boot enabled)
+##### Install for systems with Secure Boot enabled in UEFI BIOS.
 ```
 sudo bash NVIDIA-Linux-x86_64-415.13.run
 ```
@@ -59,23 +59,23 @@ press "OK"
 Take note of the private key filename and path, ie: `/usr/share/nvidia/nvidia-modsign-key-65E0FA91.key`.
 "Install signed kernel module" -> "OK" -> "Install and overwrite existing files" -> "Yes" -> "OK".
 
-## Import your new public cert to the trusted kernel keystore
+###### Import your new public cert to the trusted kernel keystore
 ```
 sudo mokutil --import /usr/share/nvidia/nvidia-modsign-crt-65E0FA91.der
 ```
 
-## reboot and when promted by the UEFI BIOS to install the new key, chose "Yes" or "OK".
+###### reboot and when promted by the UEFI BIOS to install the new key, chose "Yes" or "OK".
 ```
 sudo reboot
 
 ```
 
 ### Testing that it all worked as expected
-## Run the NVIDIA SMI tool to query a list of available GPUs
+#### Run the NVIDIA SMI tool to query a list of available GPUs
 ```
 nvidia-smi
 ```
-# the output shoul resemble the following:
+##### the output should resemble the following:
 ```
 Thu Jan 24 18:59:30 2019
 +-----------------------------------------------------------------------------+
