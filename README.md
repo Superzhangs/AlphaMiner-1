@@ -1,6 +1,22 @@
+- [Prepare a minimal Ubuntu 18.04 desktop for mining on NVIDIA](#heading)
+  * [Update the Apt repository and upgrade the distribution before starting](#sub-heading)
+- [Heading](#heading-1)
+  * [Sub-heading](#sub-heading-1)
+    + [Sub-sub-heading](#sub-sub-heading-1)
+- [Heading](#heading-2)
+  * [Sub-heading](#sub-heading-2)
+    + [Sub-sub-heading](#sub-sub-heading-2)
+
 # AlphaMiner
 
+<!-- toc -->
+
 ### Linux implementation of a linux external AwesomeMiner-compatible profit switching miner
+
+In an attempt to use linux with AwesomeMiner, I put together this mess to share with you. 
+
+Contents
+
 
 ## Prepare a minimal Ubuntu 18.04 desktop for mining on NVIDIA
 
@@ -116,4 +132,30 @@ Thu Jan 24 18:59:30 2019
 |    0       908      G   /usr/lib/xorg/Xorg                            32MiB |
 |    0      1353      G   /usr/bin/gnome-shell                           6MiB |
 +-----------------------------------------------------------------------------+
+```
+
+
+## Setting-up AlphaMiner
+### Clone the git repo
+```
+git clone https://github.com/suparious/AlphaMiner.git
+```
+
+### Edit `xorg.conf` and implement it
+```
+sudo cp /etc/X11/xorg.conf /etc/X11/xorg.conf-default
+sudo cp xorg.conf /etc/X11/xorg.conf
+```
+
+### Setup `screen` session defaults
+```
+sudo apt-get install screen htop lm-sensors
+cp screenrc .screenrc
+```
+
+### Configure system startup options and default fan speeds / overclocks
+#### Modify this file before applying
+```
+cp /etc/rc.local /etc/rc.local-default
+cp rc.local /etc/rc.local
 ```
