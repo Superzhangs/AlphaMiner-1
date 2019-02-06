@@ -1,6 +1,6 @@
 # AlphaMiner
 
-### Linux implementation of a linux external AwesomeMiner-compatible profit switching miner
+### Linux implementation of external AwesomeMiner-compatible profit switching
 
 In an attempt to use linux with AwesomeMiner, I put together this mess to share with you. :neckbeard:
 
